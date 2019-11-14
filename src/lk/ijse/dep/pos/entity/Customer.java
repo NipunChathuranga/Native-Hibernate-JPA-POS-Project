@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Customer implements SuperEntity{
+public class Customer implements SuperEntity {
 
     @Id
     private String customerId;
     private String name;
     private String address;
-//    private Gender gender;
-    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    //    private Gender gender;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
-
 
 
     public Customer() {
@@ -38,7 +37,6 @@ public class Customer implements SuperEntity{
 //        this.name = name;
 //        this.address = address;
 //    }
-
 
 
     public String getCustomerId() {
@@ -70,20 +68,20 @@ public class Customer implements SuperEntity{
     }
 
     // Handler method
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         order.setCustomer(this);
         this.orders.add(order);
     }
 
-    public void removeOrder(Order order){
-        if(order.getCustomer()!=this){
+
+    public void removeOrder(Order order) {
+        if (order.getCustomer() != this) {
             throw new RuntimeException("Invalid Order");
         }
         order.setCustomer(null);
-        this.getOrders().remove(order);
+//        this.getOrders().remove(order);
+        orders.remove(order);
     }
-
-
 
 
     //    public Gender getGender() {
