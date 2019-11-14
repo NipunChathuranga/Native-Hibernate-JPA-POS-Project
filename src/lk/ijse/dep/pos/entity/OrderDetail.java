@@ -1,10 +1,21 @@
 package lk.ijse.dep.pos.entity;
 
-public class OrderDetail implements SuperEntity{
+import javax.persistence.*;
 
+@Entity
+public class OrderDetail implements SuperEntity {
+
+    @EmbeddedId
     private OrderDetailPK orderDetailPK;
     private int qty;
     private double unitPrice;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Order order;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id", referencedColumnName = "code", insertable = false, updatable = false)
+    private Item item;
 
     public OrderDetail() {
     }
@@ -43,6 +54,22 @@ public class OrderDetail implements SuperEntity{
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     @Override
