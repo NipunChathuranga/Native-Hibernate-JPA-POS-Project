@@ -1,12 +1,14 @@
 package lk.ijse.dep.pos;
 
-import lk.ijse.dep.pos.db.DBConnection;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import lk.ijse.dep.pos.db.HibernateUtil;
+import org.hibernate.SessionFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -16,12 +18,11 @@ public class AppInitializer extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        try {
+
             System.out.println("Shutting down the connection");
-            DBConnection.getInstance().getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            HibernateUtil.getSessionFactory().close();
+//            DBConnection.getInstance().getConnection().close();
+
     }
 
     @Override
@@ -35,7 +36,7 @@ public class AppInitializer extends Application {
             fileHandler.setLevel(Level.INFO);
             rootLogger.addHandler(fileHandler);
 
-            DBConnection.getInstance().getConnection();
+//            DBConnection.getInstance().getConnection();
             URL resource = this.getClass().getResource("/lk/ijse/dep/pos/view/MainForm.fxml");
             Parent root = FXMLLoader.load(resource);
             Scene mainScene = new Scene(root);

@@ -12,6 +12,9 @@ import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory = buildSessionFactory();
@@ -19,9 +22,16 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
 
         // (1)
+        File file = new File("resources/application.properties");
+//
+//        try(FileInputStream fis = new FileInputStream(p)) {
+//
+//        }
+
+
         StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
 //                .configure().build();
-                .loadProperties("application.properties")
+                .loadProperties(file)
                 .build();
 
         // (2)

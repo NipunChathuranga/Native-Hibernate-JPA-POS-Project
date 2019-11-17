@@ -1,5 +1,7 @@
 package lk.ijse.dep.pos.dao;
 
-public interface SuperDAO {
+import org.hibernate.Session;
 
+public interface SuperDAO {
+        void setSession(Session session);
 }

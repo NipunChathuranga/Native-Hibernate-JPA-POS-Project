@@ -12,6 +12,7 @@ public class Order implements SuperEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<OrderDetail> orderDetails = new ArrayList<>();
+    @Id
     private int id;
     private Date date;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -24,6 +25,13 @@ public class Order implements SuperEntity {
     public Order(int id, Date date) {
         this.id = id;
         this.date = date;
+    }
+
+
+    public Order(int id, Date date, Customer customer) {
+        this.id = id;
+        this.date = date;
+        this.customer = customer;
     }
 
     public int getId() {
