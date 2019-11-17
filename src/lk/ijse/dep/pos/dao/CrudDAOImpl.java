@@ -48,3 +48,4 @@ public abstract class CrudDAOImpl<T extends SuperEntity, ID extends Serializable
         this.session=session;
     }
 }
+
