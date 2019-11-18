@@ -134,6 +134,24 @@ public class OrderBOImpl implements OrderBO {
 
     @Override
     public List<OrderDTO2> getOrderInfo(String query) throws Exception {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            queryDAO.setSession(session);
+
+            session.beginTransaction();
+
+            List<CustomEntity> ordersInfo = queryDAO.getOrdersInfo(query);
+
+            List<OrderDTO2> al = new ArrayList<>();
+
+            for (CustomEntity customEntity : ordersInfo) {
+                al.add(new OrderDTO2(customEntity.getOrderId(), customEntity.getOrderDate(), customEntity.getCustomerId(), customEntity.getCustomerName(), customEntity.getOrderTotal()));
+            }
+
+            session.getTransaction().commit();
+
+            return al;
+        }
     }
+
 }
