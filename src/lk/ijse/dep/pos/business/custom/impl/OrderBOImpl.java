@@ -53,16 +53,18 @@ public class OrderBOImpl implements OrderBO {
 
 
             for (OrderDetailDTO orderDetail : order.getOrderDetails()) {
+                System.out.println("=====================================================");
+                System.out.println(orderDetail);
+                System.out.println("====================================================");
                 orderDetailDAO.save(new OrderDetail(oId, orderDetail.getCode(),
                         orderDetail.getQty(), orderDetail.getUnitPrice()));
                 Item item = itemDAO.find(orderDetail.getCode());
                 item.setQtyOnHand(item.getQtyOnHand() - orderDetail.getQty());
                 itemDAO.update(item);
 
-                session.getTransaction().commit();
 
             }
-
+            session.getTransaction().commit();
 
 //        Connection connection = DBConnection.getInstance().getConnection();
 //        try {
