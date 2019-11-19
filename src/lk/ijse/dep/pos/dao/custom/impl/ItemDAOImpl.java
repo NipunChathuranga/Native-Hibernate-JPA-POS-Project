@@ -1,7 +1,7 @@
 package lk.ijse.dep.pos.dao.custom.impl;
 
 import lk.ijse.dep.pos.dao.CrudDAOImpl;
-import lk.ijse.dep.pos.dao.CrudUtil;
+
 import lk.ijse.dep.pos.dao.custom.CustomerDAO;
 import lk.ijse.dep.pos.dao.custom.ItemDAO;
 import lk.ijse.dep.pos.entity.Customer;

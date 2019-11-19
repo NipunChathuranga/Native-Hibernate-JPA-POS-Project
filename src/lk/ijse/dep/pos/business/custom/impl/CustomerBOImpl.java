@@ -47,6 +47,7 @@ public class CustomerBOImpl implements CustomerBO {
 
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         customerDAO.setEntityManager(em);
+        orderDAO.setEntityManager(em);
         em.getTransaction().begin();
         if (orderDAO.existsByCustomerId(customerId)) {
             throw new AlreadyExistsInOrderException("Customer already exists in an order, hence unable to delete");

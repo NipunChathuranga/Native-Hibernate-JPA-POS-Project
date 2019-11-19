@@ -1,7 +1,7 @@
 package lk.ijse.dep.pos.dao.custom.impl;
 
 import lk.ijse.dep.pos.dao.CrudDAOImpl;
-import lk.ijse.dep.pos.dao.CrudUtil;
+
 import lk.ijse.dep.pos.dao.custom.CustomerDAO;
 import lk.ijse.dep.pos.dao.custom.OrderDAO;
 import lk.ijse.dep.pos.entity.Customer;
@@ -24,7 +24,7 @@ public class OrderDAOImpl extends CrudDAOImpl<Order, Integer> implements OrderDA
     @Override
     public boolean existsByCustomerId(String customerId) throws Exception {
 
-        return entityManager.createNativeQuery("SELECT * FROM `Order` WHERE customerId=?1").
+        return entityManager.createNativeQuery("SELECT * FROM `Order` WHERE customer_id=?1").
                 setParameter(1, customerId).getResultList().size() > 0;
 
     }
