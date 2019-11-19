@@ -6,9 +6,11 @@ import lk.ijse.dep.pos.dao.DAOFactory;
 import lk.ijse.dep.pos.dao.DAOTypes;
 import lk.ijse.dep.pos.dao.custom.ItemDAO;
 import lk.ijse.dep.pos.dao.custom.OrderDetailDAO;
+import lk.ijse.dep.pos.db.JPAUtil;
 import lk.ijse.dep.pos.dto.ItemDTO;
 import lk.ijse.dep.pos.entity.Item;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,28 +20,59 @@ public class ItemBOImpl implements ItemBO {
     private ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOTypes.ITEM);
 
     @Override
-    public boolean saveItem(ItemDTO item) throws Exception {
-        return itemDAO.save(new Item(item.getCode(),
+    public void saveItem(ItemDTO item) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        itemDAO.save(new Item(item.getCode(),
                 item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
-    public boolean updateItem(ItemDTO item) throws Exception {
-        return itemDAO.save(new Item(item.getCode(),
+    public void updateItem(ItemDTO item) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        itemDAO.update(new Item(item.getCode(),
                 item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
+        em.getTransaction().commit();
+        em.close();
+
+
+//        return itemDAO.save(new Item(item.getCode(),
+//                item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
     }
 
     @Override
-    public boolean deleteItem(String itemCode) throws Exception {
-        if (orderDetailDAO.existsByItemCode(itemCode)){
+    public void deleteItem(String itemCode) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        orderDetailDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        if (orderDetailDAO.existsByItemCode(itemCode)) {
             throw new AlreadyExistsInOrderException("Item already exists in an order, hence unable to delete");
         }
-        return itemDAO.delete(itemCode);
+        itemDAO.delete(itemCode);
+        em.getTransaction().commit();
+        em.close();
+
+
+//        if (orderDetailDAO.existsByItemCode(itemCode)) {
+//            throw new AlreadyExistsInOrderException("Item already exists in an order, hence unable to delete");
+//        }
+//        return itemDAO.delete(itemCode);
     }
 
     @Override
     public List<ItemDTO> findAllItems() throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
         List<Item> allItems = itemDAO.findAll();
+        em.getTransaction().commit();
+        em.close();
         List<ItemDTO> dtos = new ArrayList<>();
         for (Item item : allItems) {
             dtos.add(new ItemDTO(item.getCode(),
@@ -52,12 +85,27 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public String getLastItemCode() throws Exception {
-        return itemDAO.getLastItemCode();
+
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        String lastItemCode = itemDAO.getLastItemCode();
+        em.getTransaction().commit();
+        em.close();
+        return lastItemCode;
+
+
+//        return itemDAO.getLastItemCode();
     }
 
     @Override
     public ItemDTO findItem(String itemCode) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
         Item item = itemDAO.find(itemCode);
+        em.getTransaction().commit();
+        em.close();
         return new ItemDTO(item.getCode(),
                 item.getDescription(),
                 item.getQtyOnHand(),
@@ -66,11 +114,24 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public List<String> getAllItemCodes() throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        itemDAO.setEntityManager(em);
+        em.getTransaction().begin();
         List<Item> allItems = itemDAO.findAll();
+        em.getTransaction().commit();
+        em.close();
         List<String> codes = new ArrayList<>();
         for (Item item : allItems) {
             codes.add(item.getCode());
         }
         return codes;
+
+
+//        List<Item> allItems = itemDAO.findAll();
+//        List<String> codes = new ArrayList<>();
+//        for (Item item : allItems) {
+//            codes.add(item.getCode());
+//        }
+//        return codes;
     }
 }

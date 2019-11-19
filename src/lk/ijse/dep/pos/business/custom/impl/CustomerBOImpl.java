@@ -76,40 +76,49 @@ public class CustomerBOImpl implements CustomerBO {
         }
 
         em.getTransaction().commit();
-        return dtos;
         em.close();
+        return dtos;
 
 
-
-
-
-
-
-
-
-//        List<Customer> alCustomers = customerDAO.findAll();
-//        List<CustomerDTO> dtos = new ArrayList<>();
-//        for (Customer customer : alCustomers) {
-//            dtos.add(new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress()));
-//        }
-//        return dtos;
     }
 
     @Override
     public String getLastCustomerId() throws Exception {
-        return customerDAO.getLastCustomerId();
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        String lastCustomerId = customerDAO.getLastCustomerId();
+        em.getTransaction().commit();
+        em.close();
+        return lastCustomerId;
+
+
     }
 
     @Override
     public CustomerDTO findCustomer(String customerId) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
         Customer customer = customerDAO.find(customerId);
-        return new CustomerDTO(customer.getCustomerId(),
-                customer.getName(), customer.getAddress());
+        CustomerDTO customerDTO = new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress());
+        em.getTransaction().commit();
+        em.close();
+        return customerDTO;
+
+//        Customer customer = customerDAO.find(customerId);
+//        return new CustomerDTO(customer.getCustomerId(),
+//                customer.getName(), customer.getAddress());
     }
 
     @Override
     public List<String> getAllCustomerIDs() throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
         List<Customer> customers = customerDAO.findAll();
+        em.getTransaction().commit();
+        em.close();
         List<String> ids = new ArrayList<>();
         for (Customer customer : customers) {
             ids.add(customer.getCustomerId());

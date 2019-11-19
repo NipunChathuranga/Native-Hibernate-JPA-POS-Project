@@ -27,6 +27,12 @@ public class Order implements SuperEntity {
         this.date = date;
     }
 
+    public Order(int id, Date date, Customer customer) {
+        this.id = id;
+        this.date = date;
+        this.customer = customer;
+    }
+
     public int getId() {
         return id;
     }
