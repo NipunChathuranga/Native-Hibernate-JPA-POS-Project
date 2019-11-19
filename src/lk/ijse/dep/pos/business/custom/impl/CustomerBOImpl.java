@@ -6,9 +6,11 @@ import lk.ijse.dep.pos.dao.DAOFactory;
 import lk.ijse.dep.pos.dao.DAOTypes;
 import lk.ijse.dep.pos.dao.custom.CustomerDAO;
 import lk.ijse.dep.pos.dao.custom.OrderDAO;
+import lk.ijse.dep.pos.db.JPAUtil;
 import lk.ijse.dep.pos.dto.CustomerDTO;
 import lk.ijse.dep.pos.entity.Customer;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,31 +20,79 @@ public class CustomerBOImpl implements CustomerBO {
     private OrderDAO orderDAO = DAOFactory.getInstance().getDAO(DAOTypes.ORDER);
 
     @Override
-    public boolean saveCustomer(CustomerDTO customer) throws Exception {
-        return customerDAO.save(new Customer(customer.getId(), customer.getName(), customer.getAddress()));
+    public void saveCustomer(CustomerDTO customer) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        customerDAO.save(new Customer(customer.getId(), customer.getName(), customer.getAddress()));
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
-    public boolean updateCustomer(CustomerDTO customer) throws Exception {
-        return customerDAO.update(new Customer(customer.getId(), customer.getName(), customer.getAddress()));
+    public void updateCustomer(CustomerDTO customer) throws Exception {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        customerDAO.update(new Customer(customer.getId(), customer.getName(), customer.getAddress()));
+        em.getTransaction().commit();
+        em.close();
+
+
+        // return customerDAO.update(new Customer(customer.getId(), customer.getName(), customer.getAddress()));
     }
 
     @Override
-    public boolean deleteCustomer(String customerId) throws Exception {
-        if (orderDAO.existsByCustomerId(customerId)){
+    public void deleteCustomer(String customerId) throws Exception {
+
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
+        if (orderDAO.existsByCustomerId(customerId)) {
             throw new AlreadyExistsInOrderException("Customer already exists in an order, hence unable to delete");
         }
-        return customerDAO.delete(customerId);
+
+        customerDAO.delete(customerId);
+        em.getTransaction().commit();
+        em.close();
+
+
+//        if (orderDAO.existsByCustomerId(customerId)) {
+//            throw new AlreadyExistsInOrderException("Customer already exists in an order, hence unable to delete");
+//        }
+//        return customerDAO.delete(customerId);
     }
 
     @Override
     public List<CustomerDTO> findAllCustomers() throws Exception {
+
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        customerDAO.setEntityManager(em);
+        em.getTransaction().begin();
         List<Customer> alCustomers = customerDAO.findAll();
         List<CustomerDTO> dtos = new ArrayList<>();
         for (Customer customer : alCustomers) {
             dtos.add(new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress()));
         }
+
+        em.getTransaction().commit();
         return dtos;
+        em.close();
+
+
+
+
+
+
+
+
+
+//        List<Customer> alCustomers = customerDAO.findAll();
+//        List<CustomerDTO> dtos = new ArrayList<>();
+//        for (Customer customer : alCustomers) {
+//            dtos.add(new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress()));
+//        }
+//        return dtos;
     }
 
     @Override

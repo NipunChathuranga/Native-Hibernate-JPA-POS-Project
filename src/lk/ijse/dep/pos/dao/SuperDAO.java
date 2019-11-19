@@ -1,5 +1,7 @@
 package lk.ijse.dep.pos.dao;
 
-public interface SuperDAO {
+import javax.persistence.EntityManager;
 
+public interface SuperDAO {
+        void setEntityManager(EntityManager entityManager);
 }
