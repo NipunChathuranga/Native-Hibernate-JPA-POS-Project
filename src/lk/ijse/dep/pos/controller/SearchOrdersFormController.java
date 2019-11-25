@@ -15,8 +15,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.dep.pos.business.BOFactory;
-import lk.ijse.dep.pos.business.BOTypes;
+import lk.ijse.dep.pos.AppInitializer;
+
+import lk.ijse.dep.pos.business.custom.CustomerBO;
 import lk.ijse.dep.pos.business.custom.OrderBO;
 import lk.ijse.dep.pos.dto.OrderDTO2;
 import lk.ijse.dep.pos.entity.OrderDetail;
@@ -57,7 +58,8 @@ public class SearchOrdersFormController {
     public TextField txtSearch;
     public TableView<OrderTM> tblOrders;
     public AnchorPane root;
-    OrderBO orderBO = BOFactory.getInstance().getBO(BOTypes.ORDER);
+    OrderBO orderBO = AppInitializer.ctx.getBean(OrderBO.class);
+
     public void initialize() throws Exception {
 
         tblOrders.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("orderId"));
@@ -69,7 +71,6 @@ public class SearchOrdersFormController {
         ObservableList<OrderTM> olOrders = tblOrders.getItems();
 
 
-
         txtSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -77,8 +78,8 @@ public class SearchOrdersFormController {
                 try {
                     loadTable();
                 } catch (Exception e) {
-                    new Alert(Alert.AlertType.INFORMATION,"Something went wrong.. contact DEPPO").show();
-                    Logger.getLogger("lk.ijse.dep.pos").log(Level.SEVERE,null,e);
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong.. contact DEPPO").show();
+                    Logger.getLogger("lk.ijse.dep.pos").log(Level.SEVERE, null, e);
                 }
 
             }
@@ -181,23 +182,16 @@ public class SearchOrdersFormController {
     }
 
 
-
-
-
-
-
-
     public void loadTable() throws Exception {
 
 
-
-        List<OrderDTO2> orderInfo = orderBO.getOrderInfo('%'+txtSearch.getText()+'%');
-        System.out.println(orderBO.getOrderInfo('%'+txtSearch.getText()+'%'));
+        List<OrderDTO2> orderInfo = orderBO.getOrderInfo('%' + txtSearch.getText() + '%');
+        System.out.println(orderBO.getOrderInfo('%' + txtSearch.getText() + '%'));
         ObservableList<OrderTM> items = tblOrders.getItems();
         items.clear();
 
         for (OrderDTO2 order : orderInfo) {
-            items.add(new OrderTM(order.getOrderId()+"",order.getOrderDate()+"",order.getCustomerId(),order.getCustomerName(),order.getTotal()));
+            items.add(new OrderTM(order.getOrderId() + "", order.getOrderDate() + "", order.getCustomerId(), order.getCustomerName(), order.getTotal()));
 
         }
         tblOrders.setItems(items);
@@ -205,5 +199,4 @@ public class SearchOrdersFormController {
     }
 
 
-
-    }
+}

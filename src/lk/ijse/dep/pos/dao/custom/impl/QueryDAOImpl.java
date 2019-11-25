@@ -6,9 +6,11 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class QueryDAOImpl implements QueryDAO {
 
 

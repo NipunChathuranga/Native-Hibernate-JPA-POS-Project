@@ -5,9 +5,11 @@ import lk.ijse.dep.pos.dao.custom.OrderDAO;
 import lk.ijse.dep.pos.entity.Item;
 import lk.ijse.dep.pos.entity.Order;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class OrderDAOImpl extends CrudDAOImpl<Order,Integer> implements OrderDAO {
 
 
