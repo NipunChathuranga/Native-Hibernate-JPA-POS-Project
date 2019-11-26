@@ -1,5 +1,25 @@
 package lk.ijse.dep.pos.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import lk.ijse.dep.pos.entity.OrderDetail;
+import lk.ijse.dep.pos.util.CustomerTM;
+import lk.ijse.dep.pos.util.OrderTM;
+
+import java.io.IOException;
+import java.net.URL;
+
 /*
 import lk.ijse.dep.pos.db.DB;
 import lk.ijse.dep.pos.db.Order;
@@ -24,8 +44,9 @@ import java.io.IOException;
 import java.net.URL;
 */
 public class SearchOrdersFormController {
-    /*
+
     public TextField txtSearch;
+    /*
     public TableView<OrderTM> tblOrders;
 
     public void initialize() {
@@ -86,10 +107,10 @@ public class SearchOrdersFormController {
         });
 
     }
-
+*/
     @FXML
     private void navigateToHome(MouseEvent event) throws IOException {
-        URL resource = this.getClass().getResource("/lk.ijse.dep.pos.view/MainForm.fxml");
+        URL resource = this.getClass().getResource("/lk/ijse/dep/pos/view/MainForm.fxml");
         Parent root = FXMLLoader.load(resource);
         Scene scene = new Scene(root);
         Stage primaryStage = (Stage) (this.txtSearch.getScene().getWindow());
@@ -98,23 +119,23 @@ public class SearchOrdersFormController {
     }
 
     public void tblOrders_OnMouseClicked(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getClickCount() == 2) {
-
-            URL resource = this.getClass().getResource("/lk.ijse.dep.pos.view/PlaceOrderForm.fxml");
-            FXMLLoader fxmlLoader = new FXMLLoader(resource);
-            Parent root = fxmlLoader.load();
-            Scene placeOrderScene = new Scene(root);
-            Stage secondaryStage = new Stage();
-            secondaryStage.setScene(placeOrderScene);
-            secondaryStage.centerOnScreen();
-            secondaryStage.setTitle("View Order");
-            secondaryStage.setResizable(false);
-
-            PlaceOrderFormController ctrl = fxmlLoader.getController();
-            OrderTM selectedOrder = tblOrders.getSelectionModel().getSelectedItem();
-            ctrl.initializeForSearchOrderForm(selectedOrder.getOrderId());
-
-            secondaryStage.show();
+//        if (mouseEvent.getClickCount() == 2) {
+//
+//            URL resource = this.getClass().getResource("/lk.ijse.dep.pos.view/PlaceOrderForm.fxml");
+//            FXMLLoader fxmlLoader = new FXMLLoader(resource);
+//            Parent root = fxmlLoader.load();
+//            Scene placeOrderScene = new Scene(root);
+//            Stage secondaryStage = new Stage();
+//            secondaryStage.setScene(placeOrderScene);
+//            secondaryStage.centerOnScreen();
+//            secondaryStage.setTitle("View Order");
+//            secondaryStage.setResizable(false);
+//
+//            PlaceOrderFormController ctrl = fxmlLoader.getController();
+//            OrderTM selectedOrder = tblOrders.getSelectionModel().getSelectedItem();
+//            ctrl.initializeForSearchOrderForm(selectedOrder.getOrderId());
+//
+//            secondaryStage.show();
         }
-    }*/
-}
+    }
+
