@@ -5,12 +5,7 @@
  */
 package lk.ijse.dep.pos.controller;
 
-import lk.ijse.dep.pos.business.BOFactory;
-import lk.ijse.dep.pos.business.BOTypes;
-import lk.ijse.dep.pos.business.custom.ItemBO;
-import lk.ijse.dep.pos.business.exception.AlreadyExistsInOrderException;
 import com.jfoenix.controls.JFXTextField;
-import lk.ijse.dep.pos.dto.ItemDTO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -28,6 +23,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dep.pos.AppInitializer;
+import lk.ijse.dep.pos.business.custom.ItemBO;
+import lk.ijse.dep.pos.business.exception.AlreadyExistsInOrderException;
+import lk.ijse.dep.pos.dto.ItemDTO;
 import lk.ijse.dep.pos.util.ItemTM;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class ManageItemFormController implements Initializable {
     @FXML
     private AnchorPane root;
 
-    private ItemBO itemBO = BOFactory.getInstance().getBO(BOTypes.ITEM);
+    private ItemBO itemBO = AppInitializer.ctx.getBean(ItemBO.class);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

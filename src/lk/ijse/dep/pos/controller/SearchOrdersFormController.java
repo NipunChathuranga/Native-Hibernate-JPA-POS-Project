@@ -2,7 +2,6 @@ package lk.ijse.dep.pos.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,12 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.dep.pos.business.BOFactory;
-import lk.ijse.dep.pos.business.BOTypes;
+
+import lk.ijse.dep.pos.AppInitializer;
+import lk.ijse.dep.pos.business.custom.CustomerBO;
 import lk.ijse.dep.pos.business.custom.OrderBO;
 import lk.ijse.dep.pos.dto.OrderDTO2;
-import lk.ijse.dep.pos.entity.OrderDetail;
-import lk.ijse.dep.pos.util.CustomerTM;
 import lk.ijse.dep.pos.util.OrderTM;
 
 import java.io.IOException;
@@ -55,7 +53,7 @@ public class SearchOrdersFormController {
     public TextField txtSearch;
     public TableView<OrderTM> tblOrders;
     public AnchorPane root;
-    OrderBO orderBO = BOFactory.getInstance().getBO(BOTypes.ORDER);
+    OrderBO orderBO = AppInitializer.ctx.getBean(OrderBO.class);
 
     public void initialize() throws Exception {
 

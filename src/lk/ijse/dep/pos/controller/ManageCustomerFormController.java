@@ -5,11 +5,6 @@
  */
 package lk.ijse.dep.pos.controller;
 
-import lk.ijse.dep.pos.business.BOFactory;
-import lk.ijse.dep.pos.business.BOTypes;
-import lk.ijse.dep.pos.business.custom.CustomerBO;
-import lk.ijse.dep.pos.business.exception.AlreadyExistsInOrderException;
-import lk.ijse.dep.pos.dto.CustomerDTO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -24,12 +19,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dep.pos.AppInitializer;
+import lk.ijse.dep.pos.business.custom.CustomerBO;
+import lk.ijse.dep.pos.business.exception.AlreadyExistsInOrderException;
+import lk.ijse.dep.pos.dto.CustomerDTO;
+import lk.ijse.dep.pos.util.CustomerTM;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import lk.ijse.dep.pos.util.CustomerTM;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,7 +59,7 @@ public class ManageCustomerFormController implements Initializable {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
-    private CustomerBO customerBO = BOFactory.getInstance().getBO(BOTypes.CUSTOMER);
+    private CustomerBO customerBO =AppInitializer.ctx.getBean(CustomerBO.class);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

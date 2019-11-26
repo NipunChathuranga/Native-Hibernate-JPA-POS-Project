@@ -3,13 +3,14 @@ package lk.ijse.dep.pos.dao.custom.impl;
 
 import lk.ijse.dep.pos.dao.custom.QueryDAO;
 import lk.ijse.dep.pos.entity.CustomEntity;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Component
 public class QueryDAOImpl implements QueryDAO {
 
 
